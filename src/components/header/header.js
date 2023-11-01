@@ -19,9 +19,9 @@ export class Header extends DivComponent {
 					<img src="/static/search.svg" alt="search book"/>
 					search book
 				</a>
-				<a class="menu__item" href="#favorits">
+				<a class="menu__item" href="#favorites">
 					<img src="/static/favorites.svg" alt="favorit book"/>
-					favorit book
+					favorite book
 						<div class="menu__counter">
 							${this.appState.favorits.length}
 						</div>

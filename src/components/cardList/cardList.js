@@ -1,4 +1,5 @@
 import { DivComponent } from '../../common/div-component';
+import { Card } from '../card/card';
 import './cardList.css';
 
 export class CardList extends DivComponent {
@@ -14,10 +15,14 @@ export class CardList extends DivComponent {
 			this.el.innerHTML = `<div class="card-list__loader">loading...</div>`
 			return this.el;
 		}
-		this.el.innerHTML = `
-			<h2>found books - ${this.parentState.list.length}</h2>
-		`;
 
+		const cardGrid = document.createElement('div');
+		cardGrid.classList.add('card-grid');
+		this.el.append(cardGrid);
+
+		for (const card of this.parentState.list) {
+			cardGrid.append(new Card(this.appState, card).render())
+		}
 		return this.el;
 	}
 
