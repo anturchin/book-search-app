@@ -16,6 +16,7 @@ export class MainView extends AbstractView {
 		super();
 		this.appState = appState;
 		this.appState = onChange(this.appState, this.appStateHook.bind(this));
+		this.state = onChange(this.state, this.stateHook.bind(this));
 		this.setTitle('search book');
 	}
 
@@ -23,8 +24,23 @@ export class MainView extends AbstractView {
 		console.log(path);
 		if (path === 'favorits') {
 			console.log(path);
-			// this.render();
+			// this.state.list = data;
 		}
+	}
+
+	async stateHook(path) {
+		console.log(path);
+		if (path === 'serachQuery') {
+			this.state.loading = true;
+			const data = await this.loadList(this.state.serachQuery, this.state.offset);
+			this.state.loading = false;
+			this.state.list = data.docs;
+		}
+	}
+
+	async loadList(q, offset) {
+		const res = await fetch(`https://openlibrary.org/search.json?q=${q}&offset=${offset}`);
+		return res.json();
 	}
 
 	render() {
@@ -33,7 +49,6 @@ export class MainView extends AbstractView {
 		this.app.innerHTML = '';
 		this.app.append(main);
 		this.renderHeader();
-		this.appState.favorits.push('1');
 	}
 
 	renderHeader() {
